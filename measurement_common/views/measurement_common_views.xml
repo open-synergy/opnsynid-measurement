@@ -35,6 +35,14 @@
                 <filter name="grp_scheduled_date_end_month" string="Scheduled Date End by Month" context="{'group_by':'scheduled_date_end:month'}"/>
                 <filter name="grp_scheduled_date_end_week" string="Scheduled Date End by Week" context="{'group_by':'scheduled_date_end:week'}"/>
                 <filter name="grp_scheduled_date_end_day" string="Scheduled Date End by Day" context="{'group_by':'scheduled_date_end:day'}"/>
+                <filter name="grp_real_date_start_year" string="Real Date Start by Year" context="{'group_by':'real_date_start:year'}"/>
+                <filter name="grp_real_date_start_month" string="Real Date Start by Month" context="{'group_by':'real_date_start:month'}"/>
+                <filter name="grp_real_date_start_week" string="Real Date Start by Week" context="{'group_by':'real_date_start:week'}"/>
+                <filter name="grp_real_date_start_day" string="Real Date Start by Day" context="{'group_by':'real_date_start:day'}"/>
+                <filter name="grp_real_date_end_year" string="Real Date End by Year" context="{'group_by':'real_date_end:year'}"/>
+                <filter name="grp_real_date_end_month" string="Real Date End by Month" context="{'group_by':'real_date_end:month'}"/>
+                <filter name="grp_real_date_end_week" string="Real Date End by Week" context="{'group_by':'real_date_end:week'}"/>
+                <filter name="grp_real_date_end_day" string="Real Date End by Day" context="{'group_by':'real_date_end:day'}"/>
             </group>
         </search>
     </field>
@@ -51,6 +59,8 @@
             <field name="template_id"/>
             <field name="scheduled_date_start"/>
             <field name="scheduled_date_end"/>
+            <field name="real_date_start"/>
+            <field name="real_date_end"/>
             <field name="user_id"/>
             <field name="state"/>
         </tree>
@@ -109,6 +119,8 @@
                     <group name="group_1_2">
                         <field name="scheduled_date_start"/>
                         <field name="scheduled_date_end"/>
+                        <field name="real_date_start"/>
+                        <field name="real_date_end"/>
                     </group>
                 </group>
                 <notebook colspan="4">

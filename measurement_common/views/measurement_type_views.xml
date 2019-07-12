@@ -32,6 +32,7 @@
     <field name="arch" type="xml">
         <form>
             <header/>
+            <div class="oe_right oe_button_box" style="width: 300px;" name="buttons"/>
             <group name="group_1" colspan="4" col="2">
                 <field name="name"/>
                 <field name="code"/>
