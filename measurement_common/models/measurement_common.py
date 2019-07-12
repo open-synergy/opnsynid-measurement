@@ -33,6 +33,7 @@ class MeasurementCommon(models.AbstractModel):
         string="# Document",
         default="/",
         required=True,
+        copy=False,
         readonly=True,
         states={
             "draft": [
@@ -96,6 +97,26 @@ class MeasurementCommon(models.AbstractModel):
         states={
             "draft": [
                 ("readonly", False),
+            ],
+        },
+    )
+    real_date_start = fields.Datetime(
+        string="Real Date Start",
+        readonly=True,
+        states={
+            "open": [
+                ("readonly", False),
+                ("required", True),
+            ],
+        },
+    )
+    real_date_end = fields.Datetime(
+        string="Real Date End",
+        readonly=True,
+        states={
+            "open": [
+                ("readonly", False),
+                ("required", True),
             ],
         },
     )
