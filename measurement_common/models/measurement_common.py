@@ -232,6 +232,30 @@ class MeasurementCommon(models.AbstractModel):
         readonly=True,
     )
 
+    @api.constrains(
+        "scheduled_date_start",
+        "scheduled_date_end"
+    )
+    def _check_scheduled_date(self):
+        strWarning = _(
+            "Scheduled date end must be "
+            "greater than scheduled date end")
+        if self.scheduled_date_start and self.scheduled_date_end:
+            if self.scheduled_date_start >= self.scheduled_date_end:
+                raise UserError(strWarning)
+
+    @api.constrains(
+        "real_date_start",
+        "real_date_end"
+    )
+    def _check_real_date(self):
+        strWarning = _(
+            "Real date end must be "
+            "greater than real date end")
+        if self.real_date_start and self.real_date_end:
+            if self.real_date_start >= self.real_date_end:
+                raise UserError(strWarning)
+
     @api.multi
     def action_confirm(self):
         for document in self:
