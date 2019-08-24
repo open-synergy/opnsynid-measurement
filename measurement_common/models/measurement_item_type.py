@@ -13,6 +13,9 @@ class MeasurementItemType(models.Model):
         string="Measurement Item Type",
         required=True,
     )
+    code = fields.Char(
+        string="Code",
+    )
     active = fields.Boolean(
         string="Active",
         default=True,

@@ -103,22 +103,10 @@ class MeasurementCommon(models.AbstractModel):
     real_date_start = fields.Datetime(
         string="Real Date Start",
         readonly=True,
-        states={
-            "open": [
-                ("readonly", False),
-                ("required", True),
-            ],
-        },
     )
     real_date_end = fields.Datetime(
         string="Real Date End",
         readonly=True,
-        states={
-            "open": [
-                ("readonly", False),
-                ("required", True),
-            ],
-        },
     )
     user_id = fields.Many2one(
         string="Responsible",
@@ -272,7 +260,7 @@ class MeasurementCommon(models.AbstractModel):
             document.write(document._prepare_start_data())
 
     @api.multi
-    def action_done(self):
+    def action_done(self, date_end=False):
         for document in self:
             document.write(document._prepare_done_data())
 
@@ -284,6 +272,7 @@ class MeasurementCommon(models.AbstractModel):
     @api.multi
     def action_restart(self):
         for document in self:
+            document.item_ids.unlink()
             document.write(document._prepare_restart_data())
 
     @api.multi
@@ -306,21 +295,25 @@ class MeasurementCommon(models.AbstractModel):
         }
 
     @api.multi
-    def _prepare_start_data(self):
+    def _prepare_start_data(self, date_start=False):
         self.ensure_one()
+        real_date_start = date_start or fields.Datetime.now()
         return {
             "state": "open",
             "start_date": fields.Datetime.now(),
             "start_user_id": self.env.user.id,
+            "real_date_start": real_date_start,
         }
 
     @api.multi
-    def _prepare_done_data(self):
+    def _prepare_done_data(self, date_end=False):
         self.ensure_one()
+        real_date_end = date_end or fields.Datetime.now()
         return {
             "state": "done",
             "done_date": fields.Datetime.now(),
             "done_user_id": self.env.user.id,
+            "real_date_end": real_date_end,
         }
 
     @api.multi
@@ -330,6 +323,8 @@ class MeasurementCommon(models.AbstractModel):
             "state": "cancel",
             "cancel_date": fields.Datetime.now(),
             "cancel_user_id": self.env.user.id,
+            "real_date_start": False,
+            "real_date_end": False,
         }
 
     @api.multi
