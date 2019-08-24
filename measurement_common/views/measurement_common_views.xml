@@ -86,8 +86,8 @@
             <header>
                 <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible':['|',('state','!=','draft'),('confirm_ok','=',False)]}" confirm="Confirm measurement. Are you sure?"/>
                 <button name="action_approve" type="object" string="Approve" class="oe_highlight" attrs="{'invisible':['|',('state','!=','confirm'),('approve_ok','=',False)]}" confirm="Approve measurement. Are you sure?"/>
-                <button name="action_start" type="object" string="Start" class="oe_highlight" attrs="{'invisible':['|',('state','!=','approve'),('start_ok','=',False)]}" confirm="Start measurement. Are you sure?"/>
-                <button name="action_done" type="object" string="Finish" class="oe_highlight" attrs="{'invisible':['|',('state','!=','open'),('done_ok','=',False)]}" confirm="Finish measurement. Are you sure?"/>
+                <button name="%(measurement_start_measurement_action)d" type="action" string="Start" class="oe_highlight" attrs="{'invisible':['|',('state','!=','approve'),('start_ok','=',False)]}" confirm="Start measurement. Are you sure?"/>
+                <button name="%(measurement_end_measurement_action)d" type="action" string="Finish" class="oe_highlight" attrs="{'invisible':['|',('state','!=','open'),('done_ok','=',False)]}" confirm="Finish measurement. Are you sure?"/>
                 <button name="%(base_print_policy.base_print_document_action)d" string="Print" type="action" icon="gtk-print"/>
                 <button name="%(base_cancel_reason.base_cancel_reason_wizard_action)d" type="action" string="Cancel" attrs="{'invisible':['|',('state','=','cancel'),('cancel_ok','=',False)]}" confirm="Cancel measurement. Are you sure?"/>
                 <button name="action_restart" type="object" string="Restart" attrs="{'invisible':['|',('state','!=','cancel'),('restart_ok','=',False)]}" confirm="Restart measurement. Are you sure?"/>
@@ -126,15 +126,24 @@
                 <notebook colspan="4">
                     <page name="item" string="Measurement Items">
                         <field name="item_ids" nolabel="1">
-                            <tree editable="top" create="false" delete="false">
-                                <field name="sequence" widget="handle"/>
+                            <tree create="false" delete="false">
                                 <field name="item_type_id"/>
                                 <field name="question_type"/>
-                                <field name="quantitative_value" attrs="{'readonly':[('question_type','=','qualitative')]}"/>
-                                <field name="uom_id" attrs="{'readonly':[('question_type','=','qualitative')]}"/>
-                                <field name="allowed_qualitative_option_ids" widget="many2many_tags" invisible="1"/>
-                                <field name="qualitative_option_id" domain="[('id','in',allowed_qualitative_option_ids[0][2])]" attrs="{'readonly':[('question_type','=','quantitative')]}"/>
+                                <field name="answer_string"/>
                             </tree>
+                            <form>
+                                <group name="item1" colspan="4" col="2" string="Question">
+                                    <field name="item_type_id" readonly="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="question_type" readonly="1"/>
+                                </group>
+                                <group name="item2" colspan="4" col="2" string="Answer">
+                                    <field name="quantitative_value" attrs="{'readonly':[('question_type','=','qualitative')], 'invisible':[('question_type','=','qualitative')]}"/>
+                                    <field name="uom_id" attrs="{'readonly':[('question_type','=','qualitative')], 'invisible':[('question_type','=','qualitative')]}"/>
+                                    <field name="allowed_qualitative_option_ids" widget="many2many_tags" invisible="1"/>
+                                    <field name="qualitative_option_id" domain="[('id','in',allowed_qualitative_option_ids[0][2])]" attrs="{'readonly':[('question_type','=','quantitative')], 'invisible':[('question_type','=','quantitative')]}"/>
+                                </group>
+                            </form>
                         </field>
                     </page>
                     <page name="note" string="Notes">
