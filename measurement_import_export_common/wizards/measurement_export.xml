@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+    <data>
+        <record id="measurement_export_view_form" model="ir.ui.view">
+            <field name="name">measurement.export.form</field>
+            <field name="model">measurement.export</field>
+            <field name="arch" type="xml">
+                <form string="Measurement Export">
+                    <field invisible="1" name="state"/>
+                    <field name="name" invisible="1"/>
+                    <div states="success">
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data" readonly="1" filename="name"/></p>
+                    </div>
+                    <div states="failed">
+                        <h2>Export Failed</h2>
+                        <p>Please check your data or contact Administrator</p>
+                    </div>
+                    <footer states="draft,failed">
+                        <button name="button_export" string="Export" type="object" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                    </footer>
+                    <footer states="success">
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
