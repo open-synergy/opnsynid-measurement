@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Copyright 2019 OpenSynergy Indonesia
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class EndMeasurement(models.TransientModel):
@@ -27,4 +27,5 @@ class EndMeasurement(models.TransientModel):
         object_ids = self._context.get("active_ids", [])
         for measurement_object in obj_measurement.browse(object_ids):
             measurement_object.write(
-                measurement_object._prepare_done_data(self.date_end))
+                measurement_object._prepare_done_data(self.date_end)
+            )

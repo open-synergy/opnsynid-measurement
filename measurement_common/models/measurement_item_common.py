@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Copyright 2019 OpenSynergy Indonesia
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from openerp import models, fields, api
+from openerp import api, fields, models
 
 
 class MeasurementItemCommon(models.AbstractModel):
@@ -35,8 +35,9 @@ class MeasurementItemCommon(models.AbstractModel):
                 if document.qualitative_option_id:
                     answer = document.qualitative_option_id.name
             else:
-                answer = "%s %s" % (
-                    document.quantitative_value, document.uom_id.name)
+                answer = "{} {}".format(
+                    document.quantitative_value, document.uom_id.name
+                )
             document.answer_string = answer
 
     measurement_id = fields.Many2one(

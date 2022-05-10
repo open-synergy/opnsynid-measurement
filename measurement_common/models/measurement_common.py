@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Copyright 2019 OpenSynergy Indonesia
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from openerp import models, fields, api, _
+from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
 
 
@@ -220,26 +220,16 @@ class MeasurementCommon(models.AbstractModel):
         readonly=True,
     )
 
-    @api.constrains(
-        "scheduled_date_start",
-        "scheduled_date_end"
-    )
+    @api.constrains("scheduled_date_start", "scheduled_date_end")
     def _check_scheduled_date(self):
-        strWarning = _(
-            "Scheduled date end must be "
-            "greater than scheduled date end")
+        strWarning = _("Scheduled date end must be " "greater than scheduled date end")
         if self.scheduled_date_start and self.scheduled_date_end:
             if self.scheduled_date_start >= self.scheduled_date_end:
                 raise UserError(strWarning)
 
-    @api.constrains(
-        "real_date_start",
-        "real_date_end"
-    )
+    @api.constrains("real_date_start", "real_date_end")
     def _check_real_date(self):
-        strWarning = _(
-            "Real date end must be "
-            "greater than real date end")
+        strWarning = _("Real date end must be " "greater than real date end")
         if self.real_date_start and self.real_date_end:
             if self.real_date_start >= self.real_date_end:
                 raise UserError(strWarning)
@@ -349,14 +339,20 @@ class MeasurementCommon(models.AbstractModel):
         self.ensure_one()
         result = []
         for item in self.template_id.item_ids:
-            result.append((0, 0, {
-                "sequence": item.sequence,
-                "item_type_id": item.item_type_id.id,
-                "question_type": item.item_type_id.question_type,
-                "uom_id": item.item_type_id.uom_id and
-                item.item_type_id.uom_id.id or
-                False,
-            }))
+            result.append(
+                (
+                    0,
+                    0,
+                    {
+                        "sequence": item.sequence,
+                        "item_type_id": item.item_type_id.id,
+                        "question_type": item.item_type_id.question_type,
+                        "uom_id": item.item_type_id.uom_id
+                        and item.item_type_id.uom_id.id
+                        or False,
+                    },
+                )
+            )
         return result
 
     @api.model
@@ -364,9 +360,11 @@ class MeasurementCommon(models.AbstractModel):
         _super = super(MeasurementCommon, self)
         result = _super.create(values)
         sequence = result._create_sequence()
-        result.write({
-            "name": sequence,
-        })
+        result.write(
+            {
+                "name": sequence,
+            }
+        )
         return result
 
     @api.multi
