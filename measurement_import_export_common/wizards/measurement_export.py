@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright 2018 OpenSynergy Indonesia
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
-from openerp import api, models, fields
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+# pylint: disable=W0622
 import base64
 from datetime import datetime
+
+from openerp import api, fields, models
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
@@ -12,35 +13,25 @@ class MeasurementExport(models.TransientModel):
     _name = "measurement.export"
     _description = "Measurement Export Common Feature"
 
-    name = fields.Char(
-        string="File Name",
-        readonly=True
-    )
+    name = fields.Char(string="File Name", readonly=True)
 
-    data = fields.Binary(
-        string="File",
-        readonly=True
-    )
+    data = fields.Binary(string="File", readonly=True)
 
     state = fields.Selection(
         string="State",
-        selection=[
-            ('draft', 'draft'),
-            ('success', 'success'),
-            ('failed', 'failed')
-        ],
-        default="draft"
+        selection=[("draft", "draft"), ("success", "success"), ("failed", "failed")],
+        default="draft",
     )
 
     @api.multi
     def _prepare_column(self):
         self.ensure_one()
         return [
-            u"name",
-            u"object",
-            u"item_code",
-            u"item_name",
-            u"value",
+            "name",
+            "object",
+            "item_code",
+            "item_name",
+            "value",
         ]
 
     @api.multi
@@ -71,16 +62,13 @@ class MeasurementExport(models.TransientModel):
         measurement_ids = obj_measurement.browse(active_ids)
 
         columns = self._prepare_column()
-        csv = u','.join(columns)
+        csv = ",".join(columns)
         csv += "\n"
         for measurement in measurement_ids:
             for item in measurement.item_ids:
-                data = self._prepare_data_to_export(
-                    measurement,
-                    item
-                )
-                csv_row = u'","'.join(data)
-                csv += u"\"{}\"\n".format(csv_row)
+                data = self._prepare_data_to_export(measurement, item)
+                csv_row = '","'.join(data)
+                csv += '"{}"\n'.format(csv_row)
         return csv
 
     @api.multi
@@ -89,15 +77,12 @@ class MeasurementExport(models.TransientModel):
         data = self._export()
         if data:
             date_now = fields.Datetime.now()
-            convert_dt = datetime.strptime(
-                date_now,
-                DEFAULT_SERVER_DATETIME_FORMAT
-            )
+            convert_dt = datetime.strptime(date_now, DEFAULT_SERVER_DATETIME_FORMAT)
             format = convert_dt.strftime("%d-%m-%Y_%H:%M:%S")
             vals = {
                 "state": "success",
-                "data": base64.b64encode(data.encode('utf8')),
-                "name": "__export__." + str(format) + ".csv"
+                "data": base64.b64encode(data.encode("utf8")),
+                "name": "__export__." + str(format) + ".csv",
             }
         else:
             vals = {

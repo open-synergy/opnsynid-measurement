@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2019 OpenSynergy Indonesia
-     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
 <openerp>
     <data>
         <record id="measurement_import_view_form" model="ir.ui.view">
@@ -11,8 +10,8 @@
                 <form string="Measurement Import">
                     <div states="draft,failed">
                       <group name="main" colspan="2" col="2">
-                          <field invisible="1" name="state"/>
-                          <field name="data"/>
+                          <field invisible="1" name="state" />
+                          <field name="data" />
                       </group>
                     </div>
                     <div states="success">
@@ -23,12 +22,22 @@
                         <p>Please check your data or contact Administrator</p>
                     </div>
                     <footer states="draft,failed">
-                        <button name="button_import" string="Import" type="object" class="oe_highlight"/>
+                        <button
+                            name="button_import"
+                            string="Import"
+                            type="object"
+                            class="oe_highlight"
+                        />
                         or
-                        <button special="cancel" string="Cancel" type="object" class="oe_link"/>
+                        <button
+                            special="cancel"
+                            string="Cancel"
+                            type="object"
+                            class="oe_link"
+                        />
                     </footer>
                     <footer states="success">
-                        <button special="cancel" string="Close" type="object"/>
+                        <button special="cancel" string="Close" type="object" />
                     </footer>
                 </form>
             </field>
